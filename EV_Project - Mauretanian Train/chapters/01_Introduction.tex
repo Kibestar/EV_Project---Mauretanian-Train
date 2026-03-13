@@ -1,0 +1,45 @@
+\section{Introduction}
+\subsection{Expectations}
+At the beginning of this project, we explored several concepts for an electric vehicle, aiming to go beyond the standard passenger car. We initially considered a performance-oriented Formula E platform as well as a high-efficiency commuting car. However, since individual commuting is fundamentally inefficient as a concept, we looked for more impactful solutions. Rail transport, for instance, is significantly more efficient per ton-kilometer. This led us to combine our interests in performance and efficiency by investigating the electrification of heavy-haul freight trains.
+
+Our focus shifted to the famous Mauritanian Iron Ore Train, which transports ore from inland mines to the coast. This project is particularly compelling because of the theoretical abundance of solar energy in the region. However, the Sahara’s harsh desert environment presents a major engineering challenge for electrification. Currently, the train relies on diesel-electric locomotives operating in a series-hybrid configuration \cite{SNIM2024NIES}. In 2023, the emissions from this operation exceeded 75,000 tons of CO2 equivalents (CO2e), which is roughly equal to the annual carbon footprint of 7,500 average EU households \cite{SNIM2023AnnualReport, Ivanova2017Mapping}.
+
+Our research also showed that we are not the first to explore this potential. During the 2023 United Nations Climate Change Conference (COP28), a memorandum was signed to explore electrifying the rail corridor using green hydrogen \cite{SNIM2023AnnualReport} which lead us to the conclusion that there is a real use case for this project.
+
+\subsection{Vehicle Specifications}
+
+\begin{table}[ht]
+    \centering
+    \caption{Vehicle specifications of the iron ore train \cite{SNIM2024NIES}.}
+    \label{tab:vehicle_specs}
+    \begin{tblr}{
+        colspec={l X},
+        column{1} = {font=\bfseries},
+        hlines,
+        vlines,
+    }
+        Purpose & Transport of Iron Ore \\
+        Length & 2500 m \\
+        Weight & 5500 t (empty) - 22000 t (full) \\
+        Top Speed &  65 km/h (empty) - 45 km/h (full) \\
+        Max. Gradient & 0.5\% \\
+        Acceleration & 0.1 m/s\textsuperscript{2} \\
+        Track Length & 700 km
+    \end{tblr}
+\end{table}
+
+The train is operated in several configurations, typically consisting of four diesel locomotives pulling between 200 and 220 ore wagons, along with two additional carriages for mining staff. The power requirements for the operation can be divided into two distinct segments. On the outbound journey to the mines, the train is empty but must overcome a steady positive gradient, as the mines sit at an elevation of approximately 390 m above sea level \cite{ASECNA2024}.
+
+On the return journey to the port, the situation is reversed. Although the train is significantly heavier due to the ore load, much of the route follows a negative gradient, which reduces the net energy required for propulsion. However, the "main crux" of the entire track is a relatively steep uphill section located shortly after leaving the mines toward the port \autoref{fig:track_profile}. This specific segment is a critical design parameter, as it determines the peak power the locomotives must provide to move the fully loaded mass. Using elevation data from the various train stops, a gradient map of the track was extracted; this profile will serve as the basis for determining the train's specific drive cycle in the following sections. 
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.8\textwidth]{EV_Project - Mauretanian Train/plots/track_profile.pdf}
+    \caption{The gradient map of the track, extracted from the elevation of the stops along the route.}
+    \label{fig:track_profile}
+\end{figure}
+
+
+\subsection{Powertrain}
+Since the train already operates as a series hybrid, we intend to utilize this existing architecture to our advantage. In the current configuration, a diesel generator provides electricity to the traction motors that drive the axles. Our approach is to remove the diesel generator and replace it with a large-scale energy storage system, effectively converting the locomotive into a Battery Electric Vehicle (BEV).
+

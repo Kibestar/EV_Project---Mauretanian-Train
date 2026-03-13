@@ -1,0 +1,122 @@
+\documentclass[11pt]{article}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Package Imports %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[normalem]{ulem}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage[english]{babel}
+\usepackage{silence}
+\WarningFilter{hyperref}{Token not allowed in a PDF string} % Suppress hyperref warnings about special characters in PDF bookmarks and headers
+\usepackage[colorlinks=true, allcolors=titleblue]{hyperref}
+\addto\extrasenglish{%
+  \renewcommand{\sectionautorefname}{Section}%
+  \renewcommand{\subsectionautorefname}{Subsection}%
+  \renewcommand{\subsubsectionautorefname}{Subsubsection}%
+}
+
+\usepackage{setspace}
+
+\usepackage[font=normalsize, justification=raggedright, singlelinecheck=false, textfont=bf, labelfont=bf]{caption}
+\usepackage{subcaption}
+\usepackage{xcolor}
+\usepackage{float}
+\usepackage{titling} 
+\usepackage{blindtext}
+\usepackage{siunitx}
+\usepackage[square,sort,comma,numbers]{natbib}
+\usepackage{tikz}
+\usepackage{geometry}
+\usepackage{amsmath}
+\usepackage{tikzpagenodes}
+\usepackage{tabularx}
+\usepackage{tabularray}
+\usepackage{booktabs}
+\usepackage{listings}
+\usepackage{nicefrac}
+\usepackage{bm}
+\definecolor{dunkelorange}{RGB}{204, 102, 0}
+\definecolor{darkgreen}{rgb}{0.0, 0.4, 0.0}
+\definecolor{codegreen}{rgb}{0,0.5,0.1}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.67}
+\definecolor{backcolour}{rgb}{0.92,0.94,0.96}
+\definecolor{keywordcolor}{rgb}{0.8, 0.2, 0.4}
+\definecolor{titleblue}{rgb}{0.2, 0.4, 0.6}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{keywordcolor},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+\lstset{style=mystyle}
+\definecolor{tudelftdarkblue}{RGB}{12,35,64}
+\definecolor{tudelftcyan}{RGB}{0,166,214}
+\definecolor{tudelftblue}{RGB}{0, 118, 194}
+\geometry{a4paper, margin=2cm}
+
+% Space
+\setlength{\abovedisplayskip}{1.5cm}
+\setlength{\belowdisplayskip}{1.5cm}
+\setlength{\abovedisplayshortskip}{0.9cm}
+\setlength{\belowdisplayshortskip}{0.9cm}
+
+\usepackage{helvet}
+\renewcommand{\familydefault}{\sfdefault}
+\setlength\parindent{0pt} %set no indent
+\numberwithin{table}{section}
+\numberwithin{figure}{section}
+\newcolumntype{K}[1]{>{\centering\arraybackslash}p{#1}}
+\newcolumntype{C}{>{\centering\arraybackslash}X}
+
+\newcommand{\imgscale}{0.7}
+
+\usepackage{titlesec}
+% Kapitel ohne Nummern
+\titleformat{\chapter}[display]
+  {\normalfont\Huge\bfseries} % Schriftart und Stil
+  {} % Kapitelnummer weglassen
+  {0pt} % Abstand zwischen Nummer (hier keine) und Titel
+  {} % Titel selbst
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{array}
+\newcolumntype{P}[1]{>{\centering\arraybackslash}p{#1}}
+
+\begin{document}
+
+\setstretch{1.2}
+
+\input{setup/titlepage}
+
+%%% Create a table of contents
+\tableofcontents
+\newpage
+
+%%%Insert all the chapters
+\input{EV_Project - Mauretanian Train/chapters/01_Introduction}
+\newpage
+\input{EV_Project - Mauretanian Train/chapters/02_Powertrain_design}
+\newpage
+\input{EV_Project - Mauretanian Train/chapters/03_Simulation}
+
+
+\newpage
+\addcontentsline{toc}{section}{References}
+\bibliographystyle{IEEEtran}~\nocite{*}
+\bibliography{reference/ref}
+
+\end{document}
