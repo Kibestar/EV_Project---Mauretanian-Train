@@ -1,0 +1,45 @@
+\section{Peer Feedback}
+
+% Indicate the team number of peer team
+% How many feedback sessions did you organize and with which teams?
+% What feedback did you receive from the peer team?
+% How did the peer feedback help improve the design? 
+
+To evaluate our design process, we organized two peer review sessions scheduled one week apart. This timeline allowed us to implement the initial suggestions before the second session.
+
+\subsection{First Session}
+The first session was conducted with \textbf{Group 5}. We presented our design process and the current state of the project; at that stage, all individual subsystems had been designed, and we were focusing on system integration. Our primary objectives for the meeting were to ensure the completeness of our subsystems and to verify that our progress aligned with the project schedule.
+
+The following points and questions were raised during the discussion:
+
+\begin{itemize}
+\item Are 25 kV overhead lines used with a single-phase or three-phase power supply?
+\item Is regenerative braking included in the design?
+\item How will the system handle sand and dust in a desert environment?
+\item Are there more cost-effective options than LTO (Lithium Titanate Oxide) batteries for the energy storage systems in the charging islands?
+\item Specific points of operation should be plotted on the motor's efficiency map.
+\end{itemize}
+
+While regenerative braking and environmental protection (sand/dust) were already integrated into our design, they had been omitted from the brief presentation. Following the session, we verified that 25 kV overhead lines are standardized for single-phase power supply \cite{inproceedings}. Regarding the remaining feedback, we adjusted the charging island design to remove strict space constraints, allowing for the use of more economical battery types. Additionally, we overlaid the points of operation onto the motor efficiency map to provide better performance clarity.
+
+\section{Second Session}
+
+For the second session, the focus shifted from the system configuration toward the completeness and conciseness of the report. This second peer review was conducted with \textbf{Group 2} and \textbf{Group 7}. The first part of the discussion focused on clarifying the project's subsystems. The following points required further explanation:
+
+\begin{itemize}
+\item Why do we not use an overhead line for the entire length of the track?
+\item Is there a possibility of installing solar panels on the train?
+\item How did we determine the amount of solar radiation for our charging islands?
+\end{itemize}
+
+Regarding the first point, we had already considered this but had not included sufficient detail in the report; therefore, we refined \autoref{sec:powertrain} to clearly explain that decision. Solar panels on the train were avoided to limit system complexity. Since the carriages are loaded from the top, any PV modules would need to be removable, introducing mechanical issues we preferred to avoid. As for the solar radiation, we utilized conservative assumptions. As stated in \autoref{sec:charging_islands}, the six hours of peak radiation is a value intended to be matched daily \cite{jafar2022sahara}.
+
+Following these clarifications, the discussion shifted toward the report's structural details. Key feedback from both groups included:
+
+\begin{itemize}
+\item \textbf{Future Developments:} This section was missing at the time of review.
+\item \textbf{QSS Simulation:} Results plots were missing.
+\item \textbf{QSS Simulation:} Reasoning for the aerodynamic drag coefficient was needed.
+\end{itemize}
+
+The section for future developments (\autoref{sec:future_dev}) and the missing plots in \autoref{sec:Simulation} were added following the feedback. Finally, the aerodynamic drag coefficient was chosen based on an average from various articles. However, since \autoref{sec:motor} confirmed that aerodynamic forces are essentially negligible for this application, we did not go into further detail.

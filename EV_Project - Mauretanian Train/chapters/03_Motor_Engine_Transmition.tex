@@ -1,8 +1,128 @@
-\section{Motor, Engine, Transmission}
-% Which type of electric motor (induction, permanent magnet, synchronous reluctance, other?) and/or internal combustion engine will you use and why?
-%     What is the peak and nominal power (kW), torque, and speed rating of the motor and/or engine you need? Keep in mind that the motor power rating and torque-speed curve determine how fast the vehicle can accelerate and how fast it can go on a gradient
+\section{Motor and Transmission Design}
 
-%     What is the expected weight, size, voltage, frequency, efficiency, and material of the motor?
-%     How is this motor controlled, and why is this method chosen?
+To determine the characteristics of the train's power unit, we started from the power and force loads that the train would need to deliver to operate correctly.
+The power and force loads were calculated using these parameters, derived from the drive cycle and the physical characteristics of the train:
 
-%     If and what type of transmission is required to connect the motor (or the ICE) to the wheel? What is the suitable gear ratio and why?
+
+\begin{itemize}
+    \item Total mass of the train in the loaded and offloaded configurations
+    
+    \item Maximum speed of the train in the loaded and offloaded configurations
+    
+    \item Starting acceleration and average acceleration
+    
+    \item Wheel-rail friction coefficient
+
+    \item Drag coefficient
+    
+    \item Inertia correction factor
+\end{itemize}
+
+Using these values, we derived the maximum power and maximum force to which the train would be subjected. Specifically, to calculate the train's maximum power, we selected the critical point where the loaded train, in the steepest area of the track, must start moving. Furthermore, we verified that this force could realistically be transmitted without slippage. For this test, we assumed an adherence coefficient in line with standard values in the railway industry. The results are shown below:
+
+\begin{table}[H]
+\centering
+\begin{tabular}{lr}
+\toprule
+\textbf{Parameter} & \textbf{Value} \\
+\midrule
+Peak Load Power & $9.049$ MW \\
+Peak Load Force & $2.245$ MN \\
+Traction force Limit ($0.46$) & $2.572$ MN \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+These values, along with the transmission parameters, led to the creation of the electric motor's torque-speed curve. To haul the train, three locomotives, each equipped with six motors, were chosen. For the transmission, we referred to industry standards, i.e., a wheel diameter of 0.92 m, a gear ratio of 5, and a transmission efficiency of $97\%$. The operating parameters are therefore:
+
+\begin{table}[H]
+\centering
+\begin{tabular}{lr}
+\toprule
+\textbf{Parameter} & \textbf{Value} \\
+\midrule
+Power & $518.3$ kW \\
+Torque & $11.829$ kNm \\
+Nominal Speed & $418$ rpm \\
+Max Speed & $3229$ rpm \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+
+
+\subsection{Power train design; evaluation of electrical parameters and efficiency map:}
+
+To implement the motor in QSS, it is necessary to define the power unit's electrical parameters and define an efficiency map for each operating point. To achieve these results, we chose an induction motor, as they are particularly popular for heavy-duty traction applications, are a consolidated technology, and require less maintenance than DC motors. We then chose to use the following circuit model to model the component:
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{5.png}
+    \caption{Simplified electrical model of an Induction Machine}
+\end{figure}
+
+In particular, the following parameters are used to determine the following energy losses:
+\begin{itemize}
+    \item Magnetization losses in iron, due to hysteresis phenomena and eddy currents: $P_{mag} \propto R_{fe}$
+    \item Copper losses due to the Joule effect in the stator: $P_{cus} \propto R_s$
+    \item Copper losses due to the Joule effect in the rotor: $P_{cur} \propto R_r/s$
+\end{itemize}
+
+We also considered mechanical losses due to friction and the engine's air cooling system: $P_{mech} = k_{att} \cdot \omega + k_{vent} \cdot \omega^3$[cite: 33].
+
+\subsection{Solver algorithm and final results}
+
+Once the parameters were chosen, an algorithm was developed that could solve the electrical circuit for each point of the Torque-Speed grid, thus providing an efficiency map. The Python solver for the script is shown below:
+
+\begin{figure}[H]
+    \centering
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Code_1.png}
+        \caption{Solver script part one}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Code_2.png}
+        \caption{Solver script part two}
+    \end{minipage}
+\end{figure}
+
+The algorithm was used iteratively to optimize the initial parameters based on the motor's operating range. Furthermore, the code allowed us to specify the maximum voltage and current required for the machine's correct operation. The results of this process are summarized in the images below:
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{eff map.png}
+    \caption{Efficiency map}
+\end{figure}
+
+The numerical results of the algorithm are summarized below:
+
+\subsubsection*{Calculated parameters}
+\begin{itemize}
+    \item \textbf{Nominal slip:} $1.65\%$ 
+    \item \textbf{Nominal V\_delta:} $686.28$ V 
+    \item \textbf{Flux (Psi):} $2.5700$ Wb 
+\end{itemize}
+
+\subsubsection*{Peak Specifications}
+\begin{itemize}
+    \item \textbf{Line-to-Line Voltage ($V_{rms}$):} $1211.29$ V
+    \item \textbf{Phase Current ($I_{rms}$):} $356.74$ A
+    \item \textbf{Peak Efficiency:} $96.45\%$
+\end{itemize}
+
+\subsubsection*{Efficiency in operating points}
+\begin{table}[H]
+\centering
+\begin{tabular}{lccccc}
+\toprule
+\textbf{Point} & \textbf{Torque [Nm]} & \textbf{Speed [rad/s]} & \textbf{Efficiency} & \textbf{Voltage [V]} & \textbf{Current [A]} \\
+\midrule
+Point 1 & $5720$ & $90.60$ & $95.54\%$ & $1210.15$ & $284.79$ \\
+Point 2 & $650$ & $196.25$ & $90.66\%$ & $1194.32$ & $82.05$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+

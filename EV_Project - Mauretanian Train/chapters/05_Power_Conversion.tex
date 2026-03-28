@@ -1,4 +1,19 @@
 \section{Power Conversion}
+Figure \ref{Power_Train} shows an example of an electric locomotive without battery. The locomotives for the Mauritanian Train will look quite the same, besides carrying a battery and operating at different voltage levels.
+
+\subsection{Overall Architecture}
+A complete overview of the power transfer can be seen in figure .... For the current and power calculations, the maximum power is considered, as discussed in section ....
+\newline During standstill and acceleration, power is drawn from the 25 kV 1-phase AC overhead line. This 25 kV AC power is converted into 950 V AC before going onboard. This is done because the lower voltage is suitable for the traction equipment. Besides, 950 V AC is below the IEEE definition of high-voltage (1 kV AC) \cite{HV_IEEE}, saving difficulties around handling arc-flash risk, insulation coordination and creepage distances. The maximum total power is 36 MW used for both acceleration and charging at the same time. The transformer will convert this into 
+\newline One-quadrant converters will convert the 950 V AC power into 950 V DC. According to the datasheet, the maximum DC voltage to charge the battery is 974.4 V \cite{LTO}. 
+
+\subsection{Losses and Auxilary Power}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=1\linewidth]{EV_Project - Mauretanian Train//plots/Train_Power.png}
+    \caption{Example of electric locomotive power transfer: overhead line (catenary) to traction motor \cite{Power_train}. This is for illustration purposes only, as this design integrates different components and voltage levels.}
+    \label{Power_Train}
+\end{figure}
 % How will the power be converted and managed in your vehicle and why?
 
 %     What is the overall architecture of the electrical system of the powertrain?

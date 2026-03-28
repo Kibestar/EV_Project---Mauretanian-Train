@@ -1,4 +1,4 @@
-\section{Charging Islands}
+\section{Charging Islands}\label{sec:charging_islands}
 % How will the vehicle be charged (conductive/inductive, DC/AC, other)?
 
 %     What is the charging technology to be used and the expected power level? Why?
@@ -11,69 +11,284 @@
 
 %     Where and when would a user want to charge a vehicle of this type?
 
-\subsection{Rationale for 25 kV AC Overhead Catenary Power Transfer}
+\subsection{Rationale for 25 kV AC Overhead Catenary Power Transfer}For the charging islands, the system must reliably transfer a maximum $20$~MW of power to a moving locomotive in a $50~^\circ$C Sahara Desert environment. After evaluating both inductive charging and overhead catenary systems, the overhead catenary architecture was selected as the only physically and mathematically feasible option. The selection is driven by critical thermal, electromagnetic, and electrical current constraints.
+\subsubsection*{Thermal Management and Heat Dissipation}Assuming a highly optimistic $95~\%$ efficiency for a $20$~MW power transfer, the system must continuously dissipate approximately $1$~MW of waste heat. Regarding track-side infrastructure, inductive transmitter coils must be buried in desert sand or concrete; because these materials act as thermal insulators, they create a "thermal trap" that would require unfeasible underground liquid cooling to prevent the coils from melting their own insulation. Conversely, an overhead catenary system distributes this heat across $10-12$~km of bare copper wire suspended in the open air, resulting in a highly manageable thermal load of approximately $100$~W/m that is safely dissipated via passive ambient air cooling.The power transfer interface presents similar challenges; inductive receiver pads possess a fixed, enclosed surface area that would act as a concentrated heat sink, necessitating massive onboard liquid cooling. The overhead pantograph mitigates contact-point melting through kinetic cooling. By manually constraining the train’s charging speed to a minimum of $25$~km/h, the pantograph continuously slides across "fresh," unheated wire, effectively spreading the friction and electrical arcing heat dynamically along the entire length of the track.
+\subsubsection*{Electromagnetic Safety and Chassis Integrity}Transferring up to $20$~MW of power wirelessly via induction generates massive stray magnetic fields. At this power scale, the magnetic flux would induce significant eddy currents in the train’s steel chassis, the iron wheels, and the rails, effectively heating the locomotive structure like an induction stove and creating severe electrocution hazards. The overhead catenary system avoids these risks by isolating the electrical current within dedicated, shielded high-voltage cables leading directly to the onboard rectifiers, keeping the thermal load strictly contained within the train’s dedicated active liquid-cooling loops.
+\subsubsection*{Transmission Standard and Current Constraints}While a native low-voltage DC microgrid is highly efficient, the physical limits of the pantograph-to-wire contact point prohibit a purely DC catenary at this power scale due to the amperage limit. Standard DC railway voltages (e.g., $750$~V DC to $3$~kV DC) are practically limited to around $3$~MW; attempting to push $20$~MW at $3$~kV DC would result in over $6,000$~Amps of current. This extreme amperage exceeds the physical limits of standard heavy-rail pantographs and would instantly melt the copper contact point. By specifying a $25$~kV AC standard, the track can comfortably deliver $20$~MW while keeping the current strictly under $800$~Amps. This falls well within the safe operational limits of standard high-speed and heavy-freight rail pantographs. Consequently, the $25$~kV AC overhead catenary is the selected architecture because it naturally manages the $1$~MW thermal penalty through spatial distribution and passive cooling, avoids electromagnetic interference with the train chassis, and maintains a safe contact current. Furthermore, adopting this standard aligns the microgrid with proven global industry standards, ensuring commercial component availability, interoperability, and long-term mechanical reliability in the harsh Sahara environment.
 
-For the dynamic charging islands, the system must reliably transfer between 10 MW and 20 MW of power to a moving locomotive in a 50$^\circ$C Sahara Desert environment. After evaluating both inductive charging and overhead catenary systems, the overhead catenary architecture was selected as the only physically and mathematically feasible option. The selection is driven by critical thermal, electromagnetic, and electrical current constraints.
 
-\subsubsection*{Thermal Management and Heat Dissipation}
-Assuming a highly optimistic 95\% efficiency for a 20 MW power transfer, the system must continuously dissipate approximately 1 MW of waste heat. 
+\subsection{Solar PV Generation and Environmental Adaptation \label{Solar}}The energy generation subsystem serves as the primary power source for the off-grid charging islands. Due to the extreme environmental conditions of the Sahara Desert and the mechanical stresses inherent in heavy-haul rail operations, a highly specialized PV architecture is required to ensure long-term system reliability.
+\subsubsection*{1. Mechanical and Environmental Placement Strategy}The PV arrays are intentionally set back $20$--$30$ meters from the track-side rather than being placed between or directly adjacent to the rails. This design choice is necessitated by two primary factors: vibration mitigation and dust management. The $22,000$-tonne iron-ore trains generate significant ground-borne vibrations; consequently, direct rail-side placement would lead to accelerated cell micro-cracking and solder-joint failure. A $20$~m setback provides sufficient soil-damping to protect the module's crystalline structure from these mechanical stresses. Furthermore, moving trains continuously shed iron-ore dust and lubricant aerosols, which are both highly opaque and electrically conductive. By maintaining this setback, the system minimizes the volume of train-generated particulates reaching the array surface, thereby preventing severe shading losses and potential fire hazards associated with conductive dust buildup.
+\subsubsection*{2. Module Technology: Heterojunction (HJT) and Bifaciality}Standard PERC (Passivated Emitter and Rear Cell) modules are rejected for this project due to their high temperature coefficients. Instead, the design specifies Bifacial HJT Modules to maximize yield in high-temperature environments. HJT cells possess a superior temperature coefficient of approximately $-0.25\%/^\circ\text{C}$. In desert conditions where module temperatures frequently exceed $70^\circ\text{C}$, HJT panels maintain significantly higher conversion efficiency compared to standard technologies that typically lose $\sim 15\%$ of their rated power under similar heat loads. Additionally, the Sahara sand provides a high albedo (reflectivity) of $30$--$45\%$. By utilizing bifacial modules, the system captures reflected irradiance on the rear surface, providing a "free" power boost of $15$--$20\%$ without increasing the physical footprint of the array.
+\subsubsection*{3. Autonomous Maintenance and Operations}In the desert environment, sand accumulation (soiling) represents the single largest cause of yield degradation, with the potential to reduce output by up to $30\%$ if left uncleaned. To ensure consistent power delivery, the arrays are equipped with autonomous, waterless robotic cleaners. These robots perform nightly dry-sweeping cycles to remove sand and dust, ensuring the modules remain clear without consuming scarce local water resources or causing abrasive damage to the anti-reflective coatings.
+\subsubsection*{4. Sizing and Auxiliary Load Management}To ensure the system remains self-sustaining, the total peak capacity ($kW_p$) of the array is oversized by $10$--$15\%$ beyond the primary charging requirements of the locomotive. This overhead is dedicated to powering the Auxiliary Power Supply (APS). The APS drives the active liquid-cooling pumps and energy management systems required to keep the stationary LTO battery banks within their safe operational temperature window during peak daylight hours, ensuring the storage medium does not degrade under the intense ambient heat.
+\begin{table}[h!]
 
+\centering
+
+\caption{Solar PV Engineering Design Summary}
+
+\label{table:pv_design}
+
+\begin{tabular}{|l|l|l|}
+
+\hline
+
+\textbf{Design Element} & \textbf{Selection} & \textbf{Engineering Rationale} \\ \hline
+
+Placement & 20--30m Setback & Vibration damping and iron-ore dust mitigation. \\ \hline
+
+Cell Type & Heterojunction (HJT) & Low temp. coefficient (-0.25\%/$^\circ$C) for 50$^\circ$C ambient. \\ \hline
+
+Module Style & Bifacial & Utilizes 30--45\% sand albedo for 15--20\% yield boost. \\ \hline
+
+Cleaning & Waterless Robotics & Prevents up to 30\% yield loss from desert soiling. \\ \hline
+
+Sizing & 10--15\% Oversize & Dedicated capacity for battery liquid-cooling loads. \\ \hline
+
+\end{tabular}
+
+\end{table}
+
+\subsection{Charging Island Energy Storage: Chemistry and Operational Parameters}
+
+\subsubsection*{Battery Chemistry Selection: Transition to LFP}
+Initial designs for the stationary off-grid charging islands considered Lithium Titanate (LTO) batteries due to their ability to sustain extreme discharge rates (up to 10C). However, a detailed load-profile analysis of the updated 5-stop architecture revealed that the system's maximum discharge rates are significantly lower than originally anticipated. 
+
+Consequently, the station storage chemistry has been officially specified as \textbf{Lithium Iron Phosphate (LFP)}. 
 \begin{itemize}
-    \item \textbf{Track-Side Infrastructure:} Inductive transmitter coils must be buried in desert sand or concrete, which act as thermal insulators. This creates a ``thermal trap'' that would require unfeasible underground liquid cooling to prevent the coils from melting their own insulation. Conversely, an overhead catenary system distributes this heat across 5 km of bare copper wire suspended in the open air, resulting in a highly manageable thermal load of approximately 200 W/m that is safely dissipated via passive ambient air cooling.
-    \item \textbf{Power Transfer Interface:} Inductive receiver pads possess a fixed, enclosed surface area that would act as a concentrated heat sink, requiring massive onboard liquid cooling. The overhead pantograph mitigates contact-point melting through \textit{kinetic cooling}; by manually constraining the train's charging speed to a minimum of 25 km/h, the pantograph continuously slides across ``fresh,'' unheated wire, spreading the friction and electrical arcing heat dynamically along the track length.
+    \item \textbf{Engineering Rationale:} LFP offers a substantially higher volumetric energy density and a massively reduced capital cost per kWh compared to LTO. Modern liquid-cooled LFP cells can comfortably sustain continuous discharge rates of 1C to 2C, and short-duration bursts up to 3C. As demonstrated in the C-rate calculations below, the system never exceeds 2.2C, making LFP the optimal choice for both performance and project economics.
 \end{itemize}
 
-\subsubsection*{Electromagnetic Safety and Chassis Integrity}
-Transferring up to 20 MW of power wirelessly via induction generates massive stray magnetic fields. At this power scale, the magnetic flux would induce significant eddy currents in the train's steel chassis, the iron wheels, and the rails, effectively heating the locomotive structure like an induction stove and creating severe electrocution hazards. The overhead catenary system isolates the electrical current within dedicated, shielded high-voltage cables leading directly to the onboard rectifiers, keeping the thermal load strictly contained within the train's dedicated active liquid-cooling loops.
+\subsubsection*{System C-Rate Verification Calculations}
+To validate the safety and longevity of the LFP cells, the maximum discharge C-rate ($C = \frac{\text{Power}}{\text{Capacity}}$) was calculated for both the DC stationary charging phase and the AC dynamic acceleration phase.
 
-\subsubsection*{Transmission Standard and Current Constraints}
-While a native low-voltage DC microgrid is highly efficient, the physical limits of the pantograph-to-wire contact point prohibit a purely DC catenary at this power scale. 
+\vspace{0.5em}
+\noindent\textbf{Scenario A: The DC Stationary Charging Phase (Max Output)} \\
+During the 30-minute cargo stop, the station utilizes the Tri-Port Megawatt Charging System (MCS) to push maximum power to the train.
 \begin{itemize}
-    \item \textbf{The Amperage Limit:} Standard DC railway voltages (e.g., 750 V DC to 3 kV DC) are practically limited to around 3 MW. Attempting to push 20 MW at 3 kV DC would result in over 6,000 Amps of current. This extreme amperage exceeds the physical limits of standard heavy-rail pantographs and would instantly melt the copper contact point.
-    \item \textbf{25 kV AC Standard:} By specifying a 25 kV AC overhead line, the track can comfortably deliver 20 MW while keeping the current strictly under 800 Amps. This falls well within the safe operational limits of standard high-speed and heavy-freight rail pantographs.
+    \item \textbf{Power Delivered to Train:} 11.25 MW (3 plugs $\times$ 3.75 MW)
+    \item \textbf{DC-DC Converter Efficiency:} 95\% ($\eta = 0.95$)
+    \item \textbf{Actual Battery Discharge Power:} $\frac{11.25 \text{ MW}}{0.95} = \textbf{11.84 \text{ MW}}$
+    \item \textbf{Worst-Case C-Rate (Stop 1):} Stop 1 has the smallest station battery at 5.4 MWh.
+    \item \textbf{Calculation:} $\frac{11.84 \text{ MW}}{5.4 \text{ MWh}} = \textbf{2.19C}$
 \end{itemize}
 
-The 25 kV AC overhead catenary is the selected architecture because it naturally manages the 1 MW thermal penalty through spatial distribution and passive cooling, avoids electromagnetic interference with the train chassis, and maintains a safe contact current. Furthermore, adopting 25 kV AC aligns the microgrid with proven global industry standards for heavy freight and high-speed rail, ensuring commercial component availability, interoperability, and long-term mechanical reliability in the harsh Sahara environment.
-
-
-\subsection{Solar PV Generation and Environmental Adaptation \label{Solar}}
-
-The energy generation subsystem is the primary power source for the off-grid charging islands. Due to the extreme environmental conditions of the Sahara Desert and the mechanical stresses of heavy-haul rail operations, a highly specialized PV architecture is required to ensure long-term system reliability.
-
-\subsubsection*{1. Mechanical and Environmental Placement Strategy}
-The PV arrays are intentionally set back 20--30 meters from the track-side rather than being placed between or directly adjacent to the rails. This design choice is necessitated by two primary factors:
+\vspace{0.5em}
+\noindent\textbf{Scenario B: The AC Dynamic Acceleration Phase (Max Output)} \\
+When the loaded train departs, it draws a massive 20 MW peak load from the overhead catenary to overcome static friction.
 \begin{itemize}
-    \item \textbf{Vibration Mitigation:} The 22,000-tonne iron-ore trains generate significant ground-borne vibrations. Direct rail-side placement would lead to accelerated cell micro-cracking and solder-joint failure. A 20m setback provides sufficient soil-damping to protect the module's crystalline structure.
-    \item \textbf{Dust and Occlusion Management:} Moving trains continuously shed iron-ore dust and lubricant aerosols. These particles are highly opaque and electrically conductive; buildup on modules would lead to severe shading losses and potential fire hazards. The setback minimizes the volume of train-generated particulates reaching the array surface.
+    \item \textbf{Power Delivered to Train:} 20.00 MW
+    \item \textbf{AC Inverter/Transformer Efficiency:} 85\% ($\eta = 0.85$)
+    \item \textbf{Actual Battery Discharge Power:} $\frac{20.00 \text{ MW}}{0.85} = \textbf{23.53 \text{ MW}}$
+    \item \textbf{Worst-Case C-Rate (Stop 4):} Stop 4 is the smallest station that provides AC power, with a 14.2 MWh battery.
+    \item \textbf{Calculation:} $\frac{23.53 \text{ MW}}{14.2 \text{ MWh}} = \textbf{1.65C}$
 \end{itemize}
 
-\subsubsection*{2. Module Technology: Heterojunction (HJT) and Bifaciality}
-Standard PERC (Passivated Emitter and Rear Cell) modules are rejected for this project due to their high temperature coefficients. Instead, the design specifies \textbf{Bifacial HJT Modules}.
+The absolute maximum discharge rate experienced by any station across the entire 700 km route is \textbf{2.19C} (lasting for a maximum of 30 minutes). Because this is well within the safe operational limits of LFP chemistry (which tolerates up to 3C bursts), the expensive LTO chemistry is unnecessary for the stationary islands. \textit{(Note: The onboard train batteries will still utilize LTO due to strict weight limits requiring a smaller pack to absorb high continuous loads).}
+
+\subsubsection*{Thermal Management in the Sahara Environment}
+While the electrical C-rates are fully compatible with LFP, the environmental conditions are not. LFP cells experience accelerated degradation and potential thermal runaway if operated continuously above $45^\circ$C. Because ambient temperatures in the Mauritanian Sahara frequently reach $50^\circ$C, passive cooling is mathematically insufficient.
+
+To mitigate this, every LFP battery container at the charging islands will be equipped with an \textbf{Active Liquid Thermal Management System (LTMS)}.
+The physical solar arrays at each station have been specifically oversized by \textbf{15\%} above the train's energy requirement. This dedicated energy buffer ensures the high-volume liquid cooling pumps and HVAC chillers can run at maximum capacity during the heat of the day without depleting the train's reserved charging energy.
+
+\subsection{Final Charging Station Sizing and Infrastructure Requirements}
+
+\subsubsection*{Sizing Methodology and Justifications}
+To determine the physical size of the solar arrays and battery storage at each of the 5 off-grid transit stops, the raw energy required by the train was adjusted to account for real-world thermodynamic and electrical losses. The final hardware sizing for each station is based on four sequential calculation steps:
+
 \begin{itemize}
-    \item \textbf{Thermal Resilience:} HJT cells possess a superior temperature coefficient of approximately -0.25\%/$^\circ$C. In desert conditions where module temperatures frequently exceed 70$^\circ$C, HJT panels maintain significantly higher conversion efficiency compared to standard technologies that lose $\sim$15\% of their rated power in similar heat.
-    \item \textbf{Albedo Utilization:} The Sahara sand provides a high albedo (reflectivity) of 30--45\%. Bifacial modules capture reflected irradiance on their rear surface, providing a ``free'' power boost of 15--20\% without increasing the physical footprint of the array.
+    \item \textbf{Step 1: Converter Efficiencies (Station Grid Demand)} \\
+    The system utilizes two different charging paths. The stationary DC Megawatt Charging System (MCS) is highly efficient, while the dynamic AC overhead catenary experiences higher conversion losses. To find the true energy the station must supply, we divide the train's demand by these efficiencies:
+    \[
+    \text{Grid Demand} = \left(\frac{\text{DC Energy}}{0.95}\right) + \left(\frac{\text{AC Energy}}{0.85}\right)
+    \]
+    
+    \item \textbf{Step 2: The Sahara Thermal Penalty (Total Generation Required)} \\
+    Operating in $50^\circ$C ambient temperatures requires massive Active Liquid Thermal Management Systems (LTMS) to keep the batteries safe. A \textbf{15\% energy penalty} is added to the Grid Demand specifically to power the liquid cooling pumps and HVAC chillers.
+    \[
+    \text{Total Generation} = \text{Grid Demand} \times 1.15
+    \]
+
+    \item \textbf{Step 3: Battery Health Buffer (Final Battery Size)} \\
+    To maximize the lifespan of the Lithium Iron Phosphate (LFP) cells, the station batteries are sized so they never discharge completely to 0\%. A \textbf{10\% safety buffer} is added by dividing the required generation by 0.90.
+    \[
+    \text{Final Battery Size} = \frac{\text{Total Generation}}{0.90}
+    \]
+
+    \item \textbf{Step 4: Solar Array Sizing} \\
+    The Sahara Desert provides excellent solar yield. The calculation assumes \textbf{6 Peak Sun Hours} per day and utilizes high-efficiency Bifacial HJT solar panels that generate \textbf{0.69 kW (690W)} each, thanks to the extra light reflected off the desert sand (albedo effect).
+    \[
+    \text{Number of Panels} = \frac{\text{Total Generation}}{6 \text{ hours} \times 0.69 \text{ kW}}
+    \]
 \end{itemize}
 
-\subsubsection*{3. Maintenance and Autonomous O\&M}
-In the desert, sand accumulation (soiling) is the single largest cause of yield degradation, potentially reducing output by up to 30\% if left uncleaned. To ensure consistent 10~MW delivery:
-\begin{itemize}
-    \item \textbf{Robotic Cleaning:} The arrays are equipped with autonomous, waterless robotic cleaners. These robots perform nightly dry-sweeping cycles to remove sand and dust without consuming local water resources or causing abrasive damage to the anti-reflective coatings.
-\end{itemize}
-
-\subsubsection*{4. Sizing and Auxiliary Load Management}
-To ensure the system is self-sustaining, the total peak capacity ($kW_p$) of the array is oversized by 10--15\% beyond the charging requirements of the train. This overhead is dedicated to powering the \textbf{Auxiliary Power Supply (APS)}, which drives the active liquid-cooling pumps and energy management systems required to keep the stationary LTO battery banks within their safe operational temperature window during daylight hours.
+\subsubsection*{Final Hardware Configuration}
+Applying the methodology above to the simulated train energy demands yields the final infrastructure requirements shown in Table 1. 
 
 \begin{table}[h!]
 \centering
-\caption{Solar PV Engineering Design Summary}
-\label{table:pv_design}
-\begin{tabular}{|l|l|l|}
+\caption{Final Master Sizing Configuration (Efficiency-Adjusted)}
+\vspace{0.5em}
+\label{MasterEnergyTable}
+\renewcommand{\arraystretch}{1.3}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{|l|c|c|c|c|c|}
 \hline
-\textbf{Design Element} & \textbf{Selection} & \textbf{Engineering Rationale} \\ \hline
-Placement & 20--30m Setback & Vibration damping and iron-ore dust mitigation. \\ \hline
-Cell Type & Heterojunction (HJT) & Low temp. coefficient (-0.25\%/$^\circ$C) for 50$^\circ$C ambient. \\ \hline
-Module Style & Bifacial & Utilizes 30--45\% sand albedo for 15--20\% yield boost. \\ \hline
-Cleaning & Waterless Robotics & Prevents up to 30\% yield loss from desert soiling. \\ \hline
-Sizing & 10--15\% Oversize & Dedicated capacity for battery liquid-cooling loads. \\ \hline
-\end{tabular}
+\textbf{Station} & \textbf{Energy Received (DC / AC)} & \textbf{Grid Demand} & \textbf{Total Gen. Req.} & \textbf{Final Battery Size} & \textbf{Final Solar Array Size} \\ \hline
+\textbf{Stop 1} & 4,032 kWh / 0 kWh & 4,244 kWh & 4,881 kWh & \textbf{5.4 MWh} & \textbf{1,179 Panels} (0.8 MW) \\ \hline
+\textbf{Stop 2} & 5,622 kWh / 0 kWh & 5,918 kWh & 6,806 kWh & \textbf{7.6 MWh} & \textbf{1,644 Panels} (1.1 MW) \\ \hline
+\textbf{Stop 3} & 5,625 kWh / 5,975 kWh & 12,951 kWh & 14,893 kWh & \textbf{16.5 MWh} & \textbf{3,597 Panels} (2.5 MW) \\ \hline
+\textbf{Stop 4} & 5,625 kWh / 4,445 kWh & 11,151 kWh & 12,823 kWh & \textbf{14.2 MWh} & \textbf{3,097 Panels} (2.1 MW) \\ \hline
+\textbf{Stop 5} & 5,622 kWh / 0 kWh & 5,918 kWh & 6,806 kWh & \textbf{7.6 MWh} & \textbf{1,644 Panels} (1.1 MW) \\ \hline
+\end{tabular}%
+}
 \end{table}
+
+\subsubsection*{Directional Load Variance (Loaded vs. Unloaded Journey)}
+It is critical to note that the charging stations were sized exclusively according to the "worst-case scenario" energy needs of the \textbf{westbound journey}, during which the train is fully loaded with 22,000 tonnes of iron ore. 
+
+When the train makes the \textbf{eastbound return journey} entirely unloaded, its energy demands drop significantly (peaking at a maximum of 5,622 kWh per stop). Because the unloaded train only requires the highly efficient DC stationary charging and never triggers the AC overhead lines, the infrastructure sized in Table 1 is more than sufficient to cover the return trip. No additional solar panels or batteries are required to support bi-directional travel.
+
+\subsubsection*{Infrastructure Standardization Recommendation}
+As shown in Table \ref{MasterEnergyTable}, \textbf{Stop 3 is the system bottleneck}, requiring nearly double the infrastructure of the other stations to support its 12.5 km dynamic AC charging zone. 
+
+Rather than custom-building five unique stations, it is highly recommended to standardize the construction into two classes to simplify the supply chain and maintenance:
+\begin{itemize}
+    \item \textbf{Class A Stations (Stops 1, 2, and 5):} Standardized at $\sim$8.0 MWh of battery storage and $\sim$1.2 MW solar arrays.
+    \item \textbf{Class B Stations (Stops 3 and 4):} Heavy-duty stations standardized at $\sim$16.5 MWh of battery storage and $\sim$2.5 MW solar arrays.
+\end{itemize}
+
+
+\subsection{Operational Charging Times and Overhead Line Lengths}
+
+\subsubsection*{Calculation Methodology}
+To determine how long the train spends charging at each station, we use the maximum power transfer limits established in earlier sections:
+\begin{itemize}
+    \item \textbf{DC Stationary Charging:} Maximum of \textbf{11.25 MW} (via three 3.75 MW MCS plugs).
+    \item \textbf{AC Dynamic Charging:} Regulated to \textbf{20.0 MW} from the overhead catenary.
+\end{itemize}
+
+The time required (in minutes) is calculated using the standard power formula:
+$$ \text{Time (minutes)} = \left( \frac{\text{Energy (MWh)}}{\text{Power (MW)}} \right) \times 60 $$
+
+\subsubsection*{The Bottleneck Example (Stop 3 - Loaded Journey)}
+To demonstrate the system's capabilities, we analyze the most demanding segment of the route: Stop 3 on the loaded westbound journey, which requires a massive \textbf{11.60 MWh} of energy. 
+
+\begin{itemize}
+    \item \textbf{The DC Phase:} The train stops for its mandatory 30-minute cargo/logistics break. During this time, the MCS maxes out, delivering 5.625 MWh. 
+    \begin{itemize}
+        \item \textit{Calculation:} $(5.625 \text{ MWh} / 11.25 \text{ MW}) \times 60 = \textbf{30.0 \text{ minutes}}$.
+    \end{itemize}
+    \item \textbf{The AC Phase:} The train departs, still needing 5.975 MWh to comfortably reach the next station. It raises its pantograph and draws 20.0 MW while accelerating.
+    \begin{itemize}
+        \item \textit{Calculation:} $(5.975 \text{ MWh} / 20.0 \text{ MW}) \times 60 = \textbf{17.9 \text{ minutes}}$.
+    \end{itemize}
+    \item \textbf{The Catenary Length:} Based on the train's acceleration profile, drawing power for 17.9 minutes requires exactly \textbf{12.5 km} of overhead AC wiring before the train can lower the pantograph and cruise on battery power. 
+\end{itemize}
+
+\subsubsection*{The Zero-Delay Advantage (Unloaded Journey)}
+During the eastbound unloaded journey, the train is vastly lighter. The maximum energy required at any stop drops to 5.622 MWh. 
+\begin{itemize}
+    \item \textit{Calculation:} $(5.622 \text{ MWh} / 11.25 \text{ MW}) \times 60 = \textbf{30.0 \text{ minutes}}$.
+\end{itemize}
+Because the total energy demand can be entirely fulfilled within the standard 30-minute DC stationary window, the unloaded train \textbf{never uses the AC overhead lines}.
+
+\subsubsection*{System-Wide Time and Distance Summary}
+The table below maps the exact charging times and physical AC infrastructure required for every physical station across both travel directions. 
+
+\textit{(Note: The unloaded stations have been reversed to match their physical location on the track. For example, Eastbound Stop 1 is physically located at Westbound Stop 5).}
+
+\begin{table}[h!]
+\centering
+\caption{Charging Durations and AC Infrastructure Requirements}
+\vspace{0.5em}
+\renewcommand{\arraystretch}{1.3}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{|l|c|c|c|c|c|c|}
+\hline
+\textbf{Physical Station} & \textbf{Loaded DC Time} & \textbf{Loaded AC Time} & \textbf{Loaded AC Length} & \textbf{Unloaded DC Time} & \textbf{Unloaded AC Time} & \textbf{Unloaded AC Length} \\ \hline
+\textbf{Stop 1} & 21.5 mins & 0.0 mins & 0.0 km & 14.2 mins & 0.0 mins & 0.0 km \\ \hline
+\textbf{Stop 2} & 30.0 mins & 0.0 mins & 0.0 km & 30.0 mins & 0.0 mins & 0.0 km \\ \hline
+\textbf{Stop 3} & 30.0 mins & 17.9 mins & \textbf{12.5 km} & 30.0 mins & 0.0 mins & 0.0 km \\ \hline
+\textbf{Stop 4} & 30.0 mins & 13.3 mins & \textbf{9.0 km} & 30.0 mins & 0.0 mins & 0.0 km \\ \hline
+\textbf{Stop 5} & 30.0 mins & 0.0 mins & 0.0 km & 22.8 mins & 0.0 mins & 0.0 km \\ \hline
+\end{tabular}%
+}
+\end{table}
+
+\subsubsection*{Logistical Conclusion}
+Because all DC charging occurs strictly within the pre-existing 30-minute operational stops, and all AC charging occurs dynamically while the train is physically driving, this electrification architecture introduces \textbf{zero minutes of schedule delay} to the mining company's logistics chain.
+
+\subsection{Power Electronics: Converters, Ratings, and Topology}
+
+\subsubsection*{Design Philosophy: Decentralized Power Electronics and Thermal Weight Reduction}
+A core principle of this hybrid rail architecture is maximizing ore payload by minimizing locomotive weight. While the locomotives must still carry Active Rectifiers to intake AC power from the dynamic overhead lines, the system shifts the heavy burden of stationary charging entirely to the off-board DC Megawatt Charging System (MCS). 
+
+If the train utilized AC catenary power for its 30-minute stationary cargo stops, the onboard rectifiers would require massive, heavy internal liquid-cooling systems to survive the $50^\circ$C ambient heat at zero miles per hour (where there is no aerodynamic cooling). By delivering pure DC power directly to the batteries during stationary stops, the train physically bypasses its onboard AC converters. This allows the locomotives to carry significantly smaller, lighter AC rectifiers that are only activated during dynamic acceleration, relying heavily on natural high-speed airflow for thermal management.
+
+\subsubsection*{Off-Board Converters (Station-Side)}
+The charging islands operate as isolated microgrids. They require three primary types of converters to manage the flow of energy from the solar panels to the batteries, and ultimately to the train.
+
+\begin{enumerate}
+    \item \textbf{Solar Array Charge Controllers}
+    \begin{itemize}
+        \item \textbf{Topology:} Unidirectional DC-DC Boost Converters with Maximum Power Point Tracking (MPPT).
+        \item \textbf{Power Rating:} Ranging from \textbf{0.8 MW to 2.5 MW} (scaled to match the specific Class A or Class B station array size).
+        \item \textbf{Function:} These converters step up the variable, low-voltage DC output of the Bifacial HJT solar panels to match the stable, higher voltage of the station's main DC bus (tied to the LFP battery bank).
+    \end{itemize}
+
+    \item \textbf{Stationary MCS Dispenser (The DC Fast Charger)}
+    \begin{itemize}
+        \item \textbf{Topology:} Galvanically Isolated DC-DC Converters using a Dual Active Bridge (DAB) configuration. 
+        \item \textbf{Power Rating:} \textbf{11.25 MW Total} (Distributed as three separate 3.75 MW output channels).
+        \item \textbf{Function:} The DAB topology uses a high-frequency internal transformer to provide strict galvanic isolation between the station's microgrid and the train's chassis, which is a critical safety requirement for Megawatt charging. It precisely steps the station's DC voltage to the 800V required by the onboard train batteries.
+    \end{itemize}
+
+    \item \textbf{Dynamic Catenary Dispenser (The AC Grid-Former)}
+    \begin{itemize}
+        \item \textbf{Topology:} Modular Multilevel DC-AC Inverters (MMC) paired with a Phase-Shifting Step-Up Transformer.
+        \item \textbf{Power Rating:} \textbf{23.5 MW Peak} (designed to output a clean 20.0 MW after accounting for the 85\% transmission efficiency).
+        \item \textbf{Function:} Because the station batteries output DC, this massive inverter synthesizes the 25 kV single-phase AC required for the overhead catenary. The MMC topology is selected for its ability to handle extremely high voltages while producing a smooth, low-harmonic AC sine wave.
+    \end{itemize}
+\end{enumerate}
+
+\subsubsection*{Station-Side Power Flow and Schematic Overview}
+
+Figure \ref{station_side_charging} illustrates the complete power flow logic for the off-grid charging islands. The system is designed around a central \textbf{800V Common DC Bus}, acting as the microgrid's backbone. The power flow is divided into four primary operational zones:
+
+\begin{enumerate}
+    \item \textbf{Generation and Storage (The Backbone):} \\
+    Energy enters the system via the Bifacial HJT Solar Arrays. The \textbf{C1 Charge Regulator} tracks the maximum power point of the solar panels and stabilizes the variable solar voltage onto the 800V DC bus. Connected directly to this bus is the \textbf{Stationary BESS} (the massive LFP battery bank), which acts as a bi-directional energy buffer---absorbing excess solar power during the day and discharging it when the train arrives.
+
+    \item \textbf{The Auxiliary Cooling Path:} \\
+    Because the LFP batteries and power electronics must survive the $50^\circ$C Sahara heat, 15\% of the station's energy is strictly dedicated to the \textbf{LTMS Auxiliary Load} (Liquid Cooling and HVAC). Because large industrial cooling pumps require variable-speed AC motors, a dedicated \textbf{Auxiliary DC-AC Inverter (VFD)} draws DC power from the bus and converts it to variable-frequency AC to dynamically control the cooling speed based on the station's temperature.
+
+    \item \textbf{The Stationary Charging Path (DC Output):} \\
+    When the train is parked for its 30-minute cargo stop, it utilizes the stationary charging path. Power flows from the DC bus through the \textbf{C2 Fast Charger}. This Dual Active Bridge (DAB) converter provides critical galvanic (physical) isolation for safety and ensures a perfectly stable 800V DC supply is delivered to the robotic MCS plugs connecting to the train.
+
+    \item \textbf{The Dynamic Acceleration Path (AC Output):} \\
+    When the fully loaded train departs, it requires a massive 20 MW surge of power to overcome static friction. The station seamlessly routes power through the \textbf{C3 Dynamic Dispenser}, which acts as a grid-forming inverter. It converts the 800V DC into a clean AC waveform, which is then stepped up by a massive Phase-Shifting Transformer to standard \textbf{25 kV AC single-phase} power, feeding the overhead dynamic catenary lines.
+\end{enumerate}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=1\linewidth]{EV_Project - Mauretanian Train/plots/station_side_charging.png}
+    \caption{Station-side Power Flow Schematic}
+    \label{station_side_charging}
+\end{figure}
+
+\subsection{Inter-operability}
+
+\subsubsection*{Physical Plug Standardization (MCS)}
+
+By adopting the Megawatt Charging System (MCS) rather than a bespoke railway connector, the 11.25 MW off-grid charging islands are not locked to the train. If the mining company later purchases battery-electric haul trucks or heavy earth-movers, those vehicles can drive up to the station and plug into the exact same standardized robotic MCS cables.
+
+\subsubsection*{Overhead Transmission Standard}
+
+The overhead line is strictly regulated to 25 kV AC single-phase. Because this is the universal global standard for heavy-freight and high-speed rail \cite{inproceedings}, any commercial electric locomotive purchased in the future can seamlessly drive on this track infrastructure without modification.
+
+\subsubsection*{Locomotive Modularity}
+
+Rather than designing a single 12 MWh mega-locomotive, the drivetrain uses three 4 MWh locomotives. This allows the mining company to easily swap units out for maintenance.
