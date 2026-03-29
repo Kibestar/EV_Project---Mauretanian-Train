@@ -1,7 +1,6 @@
 \section{Design of the Powertrain- Paul}\label{sec:powertrain}
 % Which type,and rating of the drivetrain will you use HEV, PHEV, BEV, or FCEV.
-%--> BEV 
-
+%--> BEV
 
 % What are the main reasons you selected the type of the drivetrain? What are the drawbacks?
 %--> since we want to be emission free and current train is already a series hybrid (as almoast all trains), so hybrid not an innovative option
@@ -11,14 +10,37 @@
 % At harbour there is relatively little space, so refining the hydrogen there is not so easy, it would fit in desert, but then we again would have to transport the water there. 
 % So overall we decided to go with BEV because of logistical simplicity, efficiency and safety reasons. BUT Hydrogen could be a future developement for charging stations
 
+
+
 % Which combinations would work best and why? 
 %--> full electrification of grid unfeasable, since overheadlines very expensive and track over 700 km long, also losses if just one energy source, and grid only at harbour (which is also not that stable for the energy we need)
 % --> Since one battery for the entire trip would need to be massive, tons of mass, volume etc... and no stable grid at harbour/ mines to charge --> we chose the best of both worlds: charging islands
 % PLUS we want to make use of all the space and high solar irradance we have in the dessert, so 100% renewables possible 
 
-% What are the forces on the vehicle and expected power and energy to be delivered/absorbed by the energy source?
+Since the project takes into account not only the sole vehicle but also the charging infrastructure, the design of the powertrain was also factored in the design of the charging infrastructure.
+
+\subsection{Vehicle Power Train}
+Since the main motivation behind this project is to design a climate friendly alternative to the current diesel powered train, we decided to go with a fully electric drivetrain. This means that the train will be powered solely by electricity stored in batteries, which will be charged using renewable energy sources. This coice left us with two main optiosns for the drivetrain: a battery electric vehicle (BEV) or a fuel cell electric vehicle (FCEV). After careful consideration of the advantages and disadvantages of both options, we decided to go with a BEV drivetrain for our design. The main reasons fo this choice were logistical simplicity, efficiency, and safety.
+
+Since hydrogen production always needs water, the production in the desert would be difficult. This said, the train would have to transport an enormous amount of hydrogen for the entire trip. This is already challenging since hydrogen has to be stored under high pressure. In the desert, such tanks would be exposed to high temperatures, which can increase the pressure inside the tanks and pose safety risks. Additionally, transporting hydrogen in such a harsh environment can be dangerous since the sand would be abrasive and could damage the tanks, leading to leaks. 
+
+Compared to this, the option of a BEV drivetrain in combination with charging islands along the track is much simpler. Electrical energy can be harvested from the abundant solar energy in the desert and stored in batteries off the train. This eliminates the need for transporting large amounts of fuel and the associated safety risks. Additionally, BEVs are generally more efficient than FCEVs, as they do not require the conversion of hydrogen into electricity, which can result in energy losses.
+
+
+\subsection{Charging Infrastructure}
+With the decision to go with a BEV drivetrain, the charging infrastructure also had to be designed accordingly. Charging the train directly from a 700~km long overhead line would be unfeasible due to multiple reasons. Not only would the installation of such a long overhead line be very expensive, but also maintenance would be difficult in the harsh desert environment. Additionally, since the harbour is the only stable grid conection on the area, the energy losses from transmitting electricity over such a long distance would be significant. Therefore, the decision was made to go with charging islands along the track. These charging islands will be equipped with large battery storage systems that can be charged using solar energy. The train can then stop at these islands to recharge its batteries during the journey. 
+
+
+
+
+% What are the forces on the vehicle and expected power and energy to be delivered/absorbed by the energy source? --- Vossi: This is partly already explained in the drive cycle section
+
+
+
 % Iterative back and forth between drive cycle design and powertrain design
 % drive cycle determines forces and was adjusted to not overload powertrain for one section... already explained in previous section
+
+
 % because of heavy mass, biggest force in steady state actually friction (apart from gradient force, that varies)
 % most force required on steep incline
 % first power estimations already done when designing drive cycle--> motor design could start
@@ -30,3 +52,5 @@
 
 %The design of the BEV Mauritanian Iron Core Train will consist of three locomotives, carrying the batteries, motors, and power conversion hardware. In this section, an overview of the design of the electric powertrain will be discussed: from the battery and the motor controllers to the motors and the transmission, including the auxiliary power used onboard. This will be done based on design trade-offs, calculations, and simulated results. 
 
+\subsection{Design Process}
+The necessary forces and energy requirements were determined through the design of the driving cycle (\autoref{sec:driving_cylce}). From there, the energy storage requirements were calculated by integrating power over time between stops. Initial rough estimations indicated a battery capacity of at least 6 to 8 MWh. While these early figures included significant safety margins to account for uncertainty, they were later refined using the QSS model, which incorporated efficiencies, mechanical losses, and auxiliary power. Motor design commenced based on the initial power estimations from the drive cycle, while the battery design was scaled accordingly as the calculations became more precise.
