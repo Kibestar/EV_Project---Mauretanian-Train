@@ -7,6 +7,7 @@
 \usepackage{graphicx}
 \usepackage[colorinlistoftodos]{todonotes}
 \usepackage[english]{babel}
+\usepackage[inkscape=export]{svg}
 \usepackage{silence}
 \WarningFilter{hyperref}{Token not allowed in a PDF string} % Suppress hyperref warnings about special characters in PDF bookmarks and headers
 \usepackage[colorlinks=true, allcolors=titleblue]{hyperref}
@@ -15,7 +16,7 @@
   \renewcommand{\subsectionautorefname}{Subsection}%
   \renewcommand{\subsubsectionautorefname}{Subsubsection}%
 }
-
+\includesvg[inkscapelatex=false]{Power_transfer}
 \usepackage{setspace}
 
 \usepackage[font=normalsize, justification=raggedright, singlelinecheck=false, textfont=bf, labelfont=bf]{caption}

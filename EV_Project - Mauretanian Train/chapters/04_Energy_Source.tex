@@ -18,12 +18,38 @@ Starting on a cell level, different chemistries were considered. The main object
     \item \textbf{Long Lifecycle:} As this train will drive the whole day, every day. Any downtime directly results in a loss of income for every party involved.
     \item \textbf{Temperature Limitations}: During the day, temperatures can rise up to a stunning 50°C, whereas they might fall below 0°C during a winter night.
 \end{itemize}
-Three different chemistries were considered: Lithium cobald oxide (LCO), Lithium iron phosphate (LFP) and Lithium-titanate battery (LTO). LCO batteries have a high power density and a somewhat short lifetime. Since the design is not optimizing for weight or volume, LCO batteries were discarded. LFP is broadly used for EVs and energy storage applications, even though its characteristic flat SOC curve makes it difficult to track the battery level. LTO is known for its extreme temperature endurance, fast charging capabilities, and unmatched lifespan. Even though LFP is cheaper to purchase, the longer lifecycle of LTO will make that chemistry cheaper in the long term than LFP. The longer lifetime (30,000 cycles), together with the better temperature performance, made us choose the Lithium Titanate Oxide Battery Cell - LTO 2.3V 40Ah cylindrical cell \cite{LTO}. Note that for the charging islands, the cheaper LFP chemistry is chosen (see section \ref{sec:charging_islands}). Since there are multiple charging islands, the onboard battery will experience a factor of multiple cycles more over time than the charging island batteries.
+Three different chemistries were considered: Lithium cobald oxide (LCO), Lithium iron phosphate (LFP) and Lithium-titanate battery (LTO). LCO batteries have a high power density and a somewhat short lifetime. Since the design is not optimizing for weight or volume, LCO batteries were discarded. LFP is broadly used for EVs and energy storage applications, even though its characteristic flat SOC curve makes it difficult to track the battery level. LTO is known for its extreme temperature endurance, fast charging capabilities, and unmatched lifespan. Even though LFP is cheaper to purchase, the longer lifecycle of LTO will make that chemistry cheaper in the long term than LFP. The longer lifetime (30,000 cycles), together with the better temperature performance, made us choose the Lithium Titanate Oxide Battery Cell - LTO 2.3V 40Ah cylindrical cell \cite{LTO}. Note that for the charging islands, the cheaper LFP chemistry is chosen (see section \ref{sec:charging_islands}). Since there are multiple charging islands, the onboard battery will experience a factor of multiple cycles more over time than the charging island batteries. Table \ref{tab:cell_chemistry} provides an overview of the different cell chemistries considered.
 \newline The cylindrical cell was chosen, rather than the pouch cell, as it is a safer option in terms of robustness, and the weight reduction from the pouch cell is not part of our requirements. 
 
+\begin{table}[htbp]
+    \centering
+        \caption{Comparison of considered battery cell chemistries.}
+    \begin{tabular}{|l|c|c|c|}
+        \hline
+        \textbf{Chemistry} & \textbf{Lifecycle (Cycles)} & \textbf{Operating Temp.} & \textbf{Relative Cost} \\
+        \hline
+        Lithium Cobalt Oxide (LCO) & $\sim$500 - 1,000 & Poor & High \\
+        Lithium Iron Phosphate (LFP)& $\sim$3,000 - 5,000 & Moderate & Low \\
+        Lithium Titanate Oxide (LTO) & $\sim$30,000 & Excellent (-50°C to 65°C) & High \\
+        \hline
+    \end{tabular}
+    \label{tab:cell_chemistry}
+\end{table}
+
 \subsection{Battery Configuration}
-The total onboard energy required is 12 MWh (see section ...). This will be equally divided over the three locomotives, with each carrying a battery of 4 MWh. To reach the 800 V DC bus voltage, 348 cells will be placed in series. A total of 125 parallel connections will be made, resulting in a capacity of 5000 Ah. A single cell is estimated at the price of 39 euros \cite{price}. The total amount of money for all 43,500 cells accumulates to 5 million euros. The SoC curves for both the loaded and the unloaded case are plotted in figure \ref{SoC Curves}, with data from the QSS simulation. It can be seen that the maximum SoC level will never exceed 93\% and minium SoC will never go below 25\% for the unloaded case and 9\% for the loaded case.
-\newline \textbf{this part needs adjustment} The LTO cell can handle charge and discharge rates of 10C \cite{LTO}. The highest energy requirement to fully charge the battery occurs at stop 5 (see section ...). The energy required is almost 10 MWh over a timespan of 30 minutes, so the peak charge power will be 20 MW. Therefore, the current will reach a maximum of 12,800 A (taking the discharge cut-off voltage of 1.5 V into account), or 2.56C, staying well below the current limit. Regenerative braking also won't deliver higher charge rates, since the downhill gradient is very shallow and the braking distance is very long.
+The total onboard energy required is 12 MWh (see section ...). This will be equally divided over the three locomotives, with each carrying a battery of 4 MWh. To reach the 800 V DC bus voltage, 348 cells will be placed in series:
+\begin{equation}
+    V_{nominal}=N_S*V_{cell}=348*2.3V=800.4V
+\end{equation}
+A total of 125 parallel connections will be made, resulting in a capacity of 5000 Ah:
+\begin{equation}
+    C_{pack}=N_P*C_{cell}=125*40Ah=5000Ah
+\end{equation}
+\begin{equation}
+    E_{pack}=V_{nominal}*C_{pack}=4MWh
+\end{equation}
+A single cell is estimated at the price of 39 euros \cite{price}. The total amount of money for all 43,500 cells accumulates to 5 million euros. The SoC curves for both the loaded and the unloaded case are plotted in figure \ref{SoC Curves}, with data from the QSS simulation. It can be seen that the maximum SoC level will never exceed 93\% and minium SoC will never go below 25\% for the unloaded case and 9\% for the loaded case.
+\newline The LTO cell can handle charge and discharge rates of 10C \cite{LTO}. The peak charge current of the battery will occur during the acceleration part (see section \ref{sec:powerconveriosn}). A maximum of 6.2 kA will charge the onboard battery, or 1.24C, staying well below the current limit. Regenerative braking also won't deliver higher charge rates, since the downhill gradient is very shallow and the braking distance is very long (see figure \ref{fig:power_energy_loaded} for the power curve). Discharging rates won't exceed 3000A, or 0.6C.
 \newline The total cell weight will be 54,375 kg per battery, with a volume of 30 m$^3$ (including terminals). The total weight of all three batteries is only 3.3\% for the unloaded train and 0.7\% for the loaded train. Therefore, the influence of this on the maximum acceleration, top speed and range can be neglected. Taking only the weight of the cells into account, the 4 MWh capacity per locomotive yields an energy-to-weight ratio of approximately 73.5 Wh/kg. Given the LTO cell's 10C discharge capability, the theoretical maximum power output is 40 MW per locomotive, resulting in a power-to-weight ratio of 736 W/kg. Regarding the placement, the battery packs will be housed centrally, occupying the space traditionally reserved for the diesel engine. The modules will be securely mounted in shock-resistant racks.
 \newline As this application integrates a BEV, the tank-to-wheel emissions are zero. Furthermore, since the electricity generation is completely decoupled from any grid and 100\% of the energy is generated by solar power, the well-to-tank emissions are also zero. Thus, the expected well-to-wheel emissions are zero.
 
@@ -43,3 +69,14 @@ The total onboard energy required is 12 MWh (see section ...). This will be equa
     \caption{SoC curves for both the unloaded and the loaded case.}
     \label{SoC Curves}
 \end{figure}
+
+To summarise, the train has three tractive locomotives, each carrying a battery with the following specifications:
+\begin{itemize}
+    \item Energy: 4 MWh;
+    \item Capacity: 5000 Ah;
+    \item Chemistry: LTO;
+    \item Nominal Voltage: 800 V;
+    \item Number of cells in series: 348;
+    \item Number of cells in parallel: 125;
+    \item Total amount of cells: 43,500.
+\end{itemize}

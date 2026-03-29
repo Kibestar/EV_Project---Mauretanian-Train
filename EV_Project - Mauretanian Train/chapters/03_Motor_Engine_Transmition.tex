@@ -1,4 +1,4 @@
-\section{Motor and Transmission Design}
+\section{Motor and Transmission Design}\label{sec:motor}
 
 To determine the characteristics of the train's power unit, we started from the power and force loads that the train would need to deliver to operate correctly.
 The power and force loads were calculated using these parameters, derived from the drive cycle and the physical characteristics of the train:
@@ -20,33 +20,39 @@ The power and force loads were calculated using these parameters, derived from t
 
 Using these values, we derived the maximum power and maximum force to which the train would be subjected. Specifically, to calculate the train's maximum power, we selected the critical point where the loaded train, in the steepest area of the track, must start moving. Furthermore, we verified that this force could realistically be transmitted without slippage. For this test, we assumed an adherence coefficient in line with standard values in the railway industry. The results are shown below:
 
-\begin{table}[H]
-\centering
-\begin{tabular}{lr}
-\toprule
-\textbf{Parameter} & \textbf{Value} \\
-\midrule
-Peak Load Power & $9.049$ MW \\
-Peak Load Force & $2.245$ MN \\
-Traction force Limit ($0.46$) & $2.572$ MN \\
-\bottomrule
-\end{tabular}
+\begin{table}[ht]
+    \centering
+    \caption{Performance parameters of the iron ore train.}
+    \label{tab:performance_specs}
+    \begin{tblr}{
+        colspec={l Q},
+        column{1} = {font=\bfseries},
+        hlines,
+        vlines,
+    }
+        Peak Load Power & 9.049 MW \\
+        Peak Load Force & 2.245 MN \\
+        Traction Force Limit (0.46) & 2.572 MN \\
+    \end{tblr}
 \end{table}
 
 These values, along with the transmission parameters, led to the creation of the electric motor's torque-speed curve. To haul the train, three locomotives, each equipped with six motors, were chosen. For the transmission, we referred to industry standards, i.e., a wheel diameter of 0.92 m, a gear ratio of 5, and a transmission efficiency of $97\%$. The operating parameters are therefore:
 
-\begin{table}[H]
-\centering
-\begin{tabular}{lr}
-\toprule
-\textbf{Parameter} & \textbf{Value} \\
-\midrule
-Power & $518.3$ kW \\
-Torque & $11.829$ kNm \\
-Nominal Speed & $418$ rpm \\
-Max Speed & $3229$ rpm \\
-\bottomrule
-\end{tabular}
+\begin{table}[ht]
+    \centering
+    \caption{Motor performance specifications.}
+    \label{tab:motor_specs}
+    \begin{tblr}{
+        colspec={l Q},
+        column{1} = {font=\bfseries},
+        hlines,
+        vlines,
+    }
+        Power         & 518.3 kW \\
+        Torque        & 11.829 kNm \\
+        Nominal Speed & 418 rpm \\
+        Max Speed     & 3229 rpm \\
+    \end{tblr}
 \end{table}
 
 
@@ -113,16 +119,19 @@ The numerical results of the algorithm are summarized below:
     \item \textbf{Peak Efficiency:} $96.45\%$
 \end{itemize}
 
-\subsubsection*{Efficiency in operating points}
-\begin{table}[H]
-\centering
-\begin{tabular}{lccccc}
-\toprule
-\textbf{Point} & \textbf{Torque [Nm]} & \textbf{Speed [rad/s]} & \textbf{Efficiency} & \textbf{Voltage [V]} & \textbf{Current [A]} \\
-\midrule
-Point 1 & $5720$ & $90.60$ & $95.54\%$ & $1210.15$ & $284.79$ \\
-Point 2 & $650$ & $196.25$ & $90.66\%$ & $1194.32$ & $82.05$ \\
-\bottomrule
-\end{tabular}
+\begin{table}[ht]
+    \centering
+    \caption{Efficiency in operating points.}
+    \label{tab:efficiency_points}
+    \begin{tblr}{
+        colspec={l X[c] X[c] X[c] X[c] X[c]},
+        column{1} = {font=\bfseries},
+        hlines,
+        vlines,
+    }
+        Point   & Torque [Nm] & Speed [rad/s] & Efficiency & Voltage [V] & Current [A] \\
+        Point 1 & 5720        & 90.60         & 95.54\%    & 1210.15     & 284.79      \\
+        Point 2 & 650         & 196.25        & 90.66\%    & 1194.32     & 82.05       \\
+    \end{tblr}
 \end{table}
 
